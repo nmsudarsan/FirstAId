@@ -91,7 +91,7 @@ python gradio_app.py
 
 ## 🎨 Sample Output
 
-<img src="sample-gallery.png" width="700" alt="Gallery UI sample" />
+Please go through AI_FirstAid_Project_Report.pdf file to know more.
 
 ---
 
