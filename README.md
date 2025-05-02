@@ -1,154 +1,111 @@
-# Project Setup Guide
 
-This guide provides step-by-step instructions to set up your project environment, including the installation of FFmpeg and PortAudio across macOS, Linux, and Windows, as well as setting up a Python virtual environment using Pipenv, pip, or conda.
+# 🩺 AI First Aid Instructor (Voice + Vision)
 
-## Table of Contents
+This project is an AI-powered **First Aid Instructor** that uses voice input, image analysis, and LLMs to provide actionable, step-by-step medical assistance with **visual illustrations**.
 
-1. [Installing FFmpeg and PortAudio](#installing-ffmpeg-and-portaudio)
-   - [macOS](#macos)
-   - [Linux](#linux)
-   - [Windows](#windows)
-2. [Setting Up a Python Virtual Environment](#setting-up-a-python-virtual-environment)
-   - [Using Pipenv](#using-pipenv)
-   - [Using pip and venv](#using-pip-and-venv)
-   - [Using Conda](#using-conda)
-3. [Running the application](#project-phases-and-python-commands)
-
-## Installing FFmpeg and PortAudio
-
-### macOS
-
-1. **Install Homebrew** (if not already installed):
-
-   ```bash
-   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-   ```
-
-2. **Install FFmpeg and PortAudio:**
-
-   ```bash
-   brew install ffmpeg portaudio
-   ```
-
-
-### Linux
-For Debian-based distributions (e.g., Ubuntu):
-
-1. **Update the package list**
-
-```
-sudo apt update
-```
-
-2. **Install FFmpeg and PortAudio:**
-```
-sudo apt install ffmpeg portaudio19-dev
-```
-
-### Windows
-
-#### Download FFmpeg:
-1. Visit the official FFmpeg download page: [FFmpeg Downloads](https://ffmpeg.org/download.html)
-2. Navigate to the Windows builds section and download the latest static build.
-
-#### Extract and Set Up FFmpeg:
-1. Extract the downloaded ZIP file to a folder (e.g., `C:\ffmpeg`).
-2. Add the `bin` directory to your system's PATH:
-   - Search for "Environment Variables" in the Start menu.
-   - Click on "Edit the system environment variables."
-   - In the System Properties window, click on "Environment Variables."
-   - Under "System variables," select the "Path" variable and click "Edit."
-   - Click "New" and add the path to the `bin` directory (e.g., `C:\ffmpeg\bin`).
-   - Click "OK" to apply the changes.
-
-#### Install PortAudio:
-1. Download the PortAudio binaries from the official website: [PortAudio Downloads](http://www.portaudio.com/download.html)
-2. Follow the installation instructions provided on the website.
+Built using:
+- 🔊 **Voice input** via `SpeechRecognition` + Whisper (Groq)
+- 🧠 **First aid recommendation** via Groq LLM (`llama3-8b`)
+- 🖼️ **Image generation** via Hugging Face FLUX model
+- 🗣️ **Text-to-speech** via `gTTS` and `ElevenLabs`
+- 🌐 Interactive frontend built with **Gradio**
 
 ---
 
-## Setting Up a Python Virtual Environment
+## 🚀 Features
 
-### Using Pipenv
-1. **Install Pipenv (if not already installed):**  
-```
-pip install pipenv
-```
-
-2. **Install Dependencies with Pipenv:** 
-
-```
-pipenv install
-```
-
-3. **Activate the Virtual Environment:** 
-
-```
-pipenv shell
-```
+- 🎙️ Record patient voice using microphone
+- 🤖 Transcribes voice to text using Whisper model via Groq
+- 🧠 Analyzes user speech + image using multimodal LLM (Groq)
+- 🖼️ Extracts visual first aid steps and generates step-wise illustrations using Hugging Face
+- 🗣️ Responds with spoken instructions using ElevenLabs/gTTS
+- 🖼️ Scrollable image gallery for visual aid
 
 ---
 
-### Using `pip` and `venv`
-#### Create a Virtual Environment:
+## 🧱 Tech Stack
+
+| Component            | Library / API                      |
+|----------------------|------------------------------------|
+| LLM (Text/Image)     | `groq` (LLaMA 3)                    |
+| Audio Input          | `speechrecognition`, `pyaudio`     |
+| Audio Output         | `gtts`, `elevenlabs`               |
+| Audio Handling       | `pydub`, `ffmpeg`                  |
+| Image Generation     | Hugging Face FLUX (FLUX.1-dev)     |
+| Image Display        | `gradio`                           |
+| Prompt Parsing       | `llama3-8b-8192` via Groq API      |
+
+---
+
+## 📦 Setup Instructions
+
+1. **Clone the repo:**
+```bash
+git clone https://github.com/nmsudarsan/FirstAId.git
+cd FirstAId
 ```
+
+2. **Create virtual environment:**
+```bash
 python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
-#### Activate the Virtual Environment:
-**macOS/Linux:**
-```
-source venv/bin/activate
-```
-
-**Windows:**
-```
-venv\Scripts\activate
-```
-
-#### Install Dependencies:
-```
+3. **Install dependencies:**
+```bash
 pip install -r requirements.txt
 ```
 
----
+4. **Set up your `.env` file:**
+Create a `.env` file in the root directory and add:
 
-### Using Conda
-#### Create a Conda Environment:
 ```
-conda create --name myenv python=3.11
-```
-
-#### Activate the Conda Environment:
-```
-conda activate myenv
+GROQ_API_KEY=your_groq_api_key
+HF_TOKEN=your_huggingface_token
+ELEVENLABS_API_KEY=your_elevenlabs_api_key
 ```
 
-#### Install Dependencies:
-```
-pip install -r requirements.txt
-```
-
-
-# Project Phases and Python Commands
-
-## Phase 1: Brain of the doctor
-```
-python brain_of_the_doctor.py
-```
-
-## Phase 2: Voice of the patient
-```
-python voice_of_the_patient.py
-```
-
-## Phase 3: Voice of the doctor
-```
-python voice_of_the_doctor.py
-```
-
-## Phase 4: Setup Gradio UI
-```
+5. **Run the app:**
+```bash
 python gradio_app.py
 ```
 
+---
+
+## 📁 Directory Structure
+
+```
+├── gradio_app.py              # Main Gradio interface
+├── voice_of_the_patient.py    # Voice recording + transcription
+├── voice_of_the_doctor.py     # TTS voice response
+├── firstaid_brain.py          # Multimodal analysis using Groq
+├── step_extractor.py          # Extracts + simplifies visual steps
+├── image_generator.py         # Uses HF FLUX to generate step images
+├── requirements.txt
+├── .env (not committed)       # Your API keys
+```
+
+---
+
+## 🎨 Sample Output
+
+<img src="sample-gallery.png" width="700" alt="Gallery UI sample" />
+
+---
+
+## 🛡️ Disclaimers
+
+- This is **not a replacement for professional medical advice**.
+- Intended for educational and demonstration purposes only.
+
+---
+
+## 🤝 Contributing
+
+Pull requests welcome. For major changes, please open an issue first.
+
+---
+
+## 📜 License
+
+This project is licensed under the MIT License.
