@@ -1,6 +1,8 @@
 
 # 🩺 AI First Aid Instructor (Voice + Vision)
 
+# Please go through the AI_FirstAid_Project_Report.pdf file to view input and output, along with the workflow of the project.
+
 This project is an AI-powered **First Aid Instructor** that uses voice input, image analysis, and LLMs to provide actionable, step-by-step medical assistance with **visual illustrations**.
 
 Built using:
